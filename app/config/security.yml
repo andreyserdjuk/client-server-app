@@ -1,0 +1,42 @@
+# To get started with security, check out the documentation:
+# https://symfony.com/doc/current/security.html
+security:
+
+    # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    providers:
+        in_memory:
+            memory:
+                users:
+                    api:
+                        password: '$2y$12$t0VPPOnNBre0.mO4GpzAduNgbAHMv0hyhHb94diVuImTRwPge24jK'
+                        roles: 'ROLE_API'
+                    admin:
+                        password: '$2y$12$IhWBS1TTjaVHYD7oliuLTe9qZuDRSLIcdmypF.2vVRJNSsukykH.e'
+                        roles: 'ROLE_ADMIN'
+    encoders:
+        Symfony\Component\Security\Core\User\User:
+            algorithm: bcrypt
+            cost: 12
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: ~
+            http_basic: ~
+            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+            #http_basic: ~
+
+            # https://symfony.com/doc/current/security/form_login_setup.html
+            #form_login: ~
+#        secured_area:
+#            logout:
+#                path:   /logout
+#                target: /
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_API
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+    access_control:
+        - { path: ^/api, roles: ROLE_API }
+        - { path: ^/dashboard, roles: ROLE_ADMIN }

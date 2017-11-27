@@ -1,0 +1,17 @@
+parameters:
+    app.event_listener.exception_listener.class: AppBundle\EventListener\ExceptionListener
+    app.event_listener.log_response_listener.class: AppBundle\EventListener\LogResponseListener
+
+services:
+    app.event_listener.exception_listener:
+        class: "%app.event_listener.exception_listener.class%"
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
+
+    app.event_listener.log_response_listener:
+        class: "%app.event_listener.log_response_listener.class%"
+#        arguments: ['@logger']
+        autowire: true
+        tags:
+            - { name: kernel.event_subscriber }
+            - { name: monolog.logger, channel: response }

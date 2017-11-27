@@ -1,0 +1,35 @@
+{
+  "name": "test-transaction",
+  "version": "1.0.0",
+  "description": "Example client-server application config built with Symfony 3, React, Webpack, TypeScript.",
+  "main": "webpack.config.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "@types/react": "^16.0.25",
+    "@types/react-dom": "^16.0.3",
+    "@types/react-table": "^6.6.0",
+    "awesome-typescript-loader": "^3.4.0",
+    "bootstrap-sass": "^3.3.7"
+  },
+  "devDependencies": {
+    "@symfony/webpack-encore": "^0.17.0",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "fork-ts-checker-webpack-plugin": "^0.2.9",
+    "node-sass": "^4.7.2",
+    "react": "^16.1.1",
+    "react-dom": "^16.1.1",
+    "sass-loader": "^6.0.6",
+    "source-map-loader": "^0.2.3",
+    "typescript": "^2.6.1",
+    "webpack": "^3.8.1",
+    "webpack-notifier": "^1.5.0"
+  },
+  "scripts": {
+    "test": "test",
+    "webpack": "webpack"
+  },
+  "author": "Andrey Serdjuk",
+  "license": "ISC"
+}
