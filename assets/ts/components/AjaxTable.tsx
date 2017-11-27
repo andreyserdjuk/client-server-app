@@ -93,7 +93,7 @@ export class AjaxTable extends React.Component<TableProps, TableState> {
         ).then(response => {
             const totalPages = Math.ceil(response.total / this.state.pageSize);
             const data = response.data;
-            this.setState({filterValues, data, totalPages, loading: false});
+            this.setState({currentPage:1, filterValues, data, totalPages, loading: false});
         });
     }
 
