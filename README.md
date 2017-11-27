@@ -5,11 +5,14 @@ Example client-server application config built with Symfony 3, React, Webpack, T
 Setup
 -----
 ```bash
+git clone git@github.com:andreyserdjuk/client-server-app.git
+cd ./client-server-app
+composer install
 bin/console do:da:cre
 bin/console do:mi:mi
 bin/console do:fi:lo
 bin/console server:run
-./vendor/bin/phpunit -c phpunit.xml.dist
+./vendor/bin/phpunit -c ./phpunit.xml.dist
 
 # setup assets
 npm i
