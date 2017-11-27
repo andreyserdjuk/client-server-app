@@ -31,4 +31,4 @@ huge and unclear webpack config etc. encore is not used here.
 
 Todo
 ----
-Setup: copy-webpack-plugin, react-debounce-input
+Setup: react-debounce-input

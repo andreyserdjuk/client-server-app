@@ -1,7 +1,17 @@
 const path = require('path')
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-module.exports = env => {
+let reactFile = 'react.production.min.js',
+    reactDomFile = 'react-dom.development.js';
+if (process.env.NODE_ENV !== 'production') {
+  console.log('Looks like we are in development mode!');
+  reactFile = 'react.development.js';
+  reactDomFile = 'react-dom.production.min.js';
+}
+
+module.exports = (env) => {
+  const buildPath = path.resolve(__dirname, 'web/build');  
   const config = {
     context: __dirname,
     entry: {
@@ -11,7 +21,7 @@ module.exports = env => {
       ]
     },
     output: {
-      path: path.resolve(__dirname, 'web/build'),
+      path: buildPath,
       filename: '[name].app.js',
       publicPath: '/build/',
       pathinfo: true,
@@ -63,14 +73,17 @@ module.exports = env => {
       ]
     },
 
-    // you cat setup copy-webpack-plugin to exclude React dist from compiling
-    // externals: {
-    //   'react': 'React',
-    //   'react-dom': 'ReactDOM',
-    // },
+    externals: {
+      'react': 'React',
+      'react-dom': 'ReactDOM',
+    },
 
     plugins: [
-      new ExtractTextPlugin('style.css')
+      new ExtractTextPlugin('style.css'),
+      new CopyWebpackPlugin([
+        { from: `node_modules/react/umd/${reactFile}`, to: `${buildPath}/react.js` },
+        { from: `node_modules/react-dom/umd/${reactDomFile}`, to: `${buildPath}/react-dom.js` },
+      ]),
     ]
   }
 
