@@ -28,6 +28,7 @@ P.S.
 ----
 Due to poor Symfony encore docs, empty "test" sections, 
 huge and unclear webpack config etc. encore is not used here.
+
 Todo
 ----
 Setup: copy-webpack-plugin, react-debounce-input
