@@ -1,5 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+// import {DebounceInput} from 'react-debounce-input';
+const DebounceInput = require('react-debounce-input');
 
 export interface RowInterface {
     [key:string]: any,
@@ -176,8 +178,13 @@ export class AjaxTable extends React.Component<TableProps, TableState> {
                 <div className={"row"}>
                 <div className={"col-lg-2 col-sm-3 col-md-3"}>
                     <div className={"input-group"}>
-                        <input type={"text"} className={"form-control"} value={this.state.currentPage} onChange={this.onPageNumChange}/>
                         <div className={"input-group-btn"}>
+                            <DebounceInput
+                                type="number"
+                                className={"form-control"}
+                                debounceTimeout={300}
+                                value={this.state.currentPage} 
+                                onChange={this.onPageNumChange} />
                             <button type={"button"} className={"btn btn-default"} onClick={this.prevPage}>prev</button>
                             <button type={"button"} className={"btn btn-default"} onClick={this.nextPage}>next</button>
                         </div>
@@ -190,11 +197,17 @@ export class AjaxTable extends React.Component<TableProps, TableState> {
 
     renderFilters() {
         return this.props.columns.map(col => {
-            if (col.filterType === 'text') {
-                return <th key={col.dataRowKey}><input name={col.filterName} type={"text"} onChange={this.onFilterChange}/></th>;
-            }
-            if (col.filterType === 'date') {
-                return <th key={col.dataRowKey}><input name={col.filterName} type={"date"} onChange={this.onFilterChange}/></th>;
+            if (col.filterType === 'text' || col.filterType === 'date') {
+                return (
+                    <th key={col.dataRowKey}>
+                        <DebounceInput
+                            name={col.filterName}
+                            type={col.filterType}
+                            onChange={this.onFilterChange}
+                            debounceTimeout={300}
+                        />
+                    </th>
+                );
             }
             return <th key={col.dataRowKey}></th>;
         });

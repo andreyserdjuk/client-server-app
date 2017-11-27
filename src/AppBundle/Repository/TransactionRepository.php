@@ -4,17 +4,31 @@ namespace AppBundle\Repository;
 
 use AppBundle\Entity\Customer;
 use AppBundle\Entity\Transaction;
+use Doctrine\ORM\QueryBuilder;
 
 class TransactionRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getTotal(): int
+    public function getTotal(
+        Customer $customer = null,
+        string $amount = null,
+        \DateTime $date = null
+    ): int
     {
-        return $this->getEntityManager()->createQueryBuilder()
+        $qb = $this->getEntityManager()->createQueryBuilder()
             ->select('count(t.id)')
             ->from(Transaction::class, 't')
-            ->getQuery()
-            ->getSingleScalarResult()
         ;
+
+        $this->addCustomerAmountDate(
+            $qb,
+            $customer,
+            $amount,
+            $date
+        );
+
+        return $qb
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
     public function getByParams(
@@ -28,7 +42,35 @@ class TransactionRepository extends \Doctrine\ORM\EntityRepository
         $qb
             ->select('t')
             ->from(Transaction::class, 't');
+        
+        $this->addCustomerAmountDate(
+            $qb,
+            $customer,
+            $amount,
+            $date
+        );
+        
+        if (null !== $offset) {
+            $qb
+                ->setFirstResult($offset)
+            ;
+        }
 
+        if (null !== $limit) {
+            $qb
+                ->setMaxResults($limit)
+            ;
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    private function addCustomerAmountDate(
+        QueryBuilder $qb,
+        Customer $customer = null,
+        string $amount = null,
+        \DateTime $date = null
+    ) {
         if (null !== $customer) {
             $qb
                 ->andWhere('t.customer = :customer')
@@ -49,19 +91,5 @@ class TransactionRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('date', $date)
             ;
         }
-
-        if (null !== $offset) {
-            $qb
-                ->setFirstResult($offset)
-            ;
-        }
-
-        if (null !== $limit) {
-            $qb
-                ->setMaxResults($limit)
-            ;
-        }
-
-        return $qb->getQuery()->getResult();
     }
 }

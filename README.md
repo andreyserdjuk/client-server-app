@@ -31,4 +31,5 @@ huge and unclear webpack config etc. encore is not used here.
 
 Todo
 ----
-Setup: react-debounce-input
+* customizable page size
+* separate pagination component - bridge for third-party pagers

@@ -1,7 +1,7 @@
 const path = require('path')
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-
+        
 let reactFile = 'react.production.min.js',
     reactDomFile = 'react-dom.development.js';
 if (process.env.NODE_ENV !== 'production') {

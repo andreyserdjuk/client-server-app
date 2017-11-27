@@ -74,7 +74,11 @@ class TransactionController extends Controller
 
             return new JsonResponse([
                 'data' => $result,
-                'total' => $transactionRepo->getTotal(),
+                'total' => $transactionRepo->getTotal(
+                    $transactionFilters->getCustomer(),
+                    $transactionFilters->getAmount(),
+                    $transactionFilters->getDate()
+                ),
             ]);
         }
 
